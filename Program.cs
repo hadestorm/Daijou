@@ -14,7 +14,7 @@
             LoadDataFromFile();
 
             var menu = new Menu(userTasks);
-            menu.PrintMenu();
+            menu.LoadMenu();
         }
 
         public static void LoadDataFromFile()
@@ -29,7 +29,7 @@
                     userTasks.Add(new Task(int.Parse(entries[0]), entries[1]));
                     taskIDCountList.Add(int.Parse(entries[0]));
                 }
-                if (taskIDCountList.Any()) taskIDCount = taskIDCountList.Max();
+                if (taskIDCountList.Any()) taskIDCount = taskIDCountList.Count();
             }
         }
 
@@ -43,10 +43,9 @@
             File.WriteAllLines(filePath, output);
         }
 
-        public static void EditTask()
+        public static void EditTask(int index)
         {
-            Console.Write("Enter the task ID: ");
-            int taskID = int.Parse(Console.ReadLine());
+            int taskID = index;
 
             try
             {
@@ -93,15 +92,14 @@
             }
         }
 
-        public static void ViewTaskDetails()
+        public static void ViewTaskDetails(int index)
         {
-            Console.Write("Enter the task ID: ");
-            int taskID = int.Parse(Console.ReadLine());
+            int taskID = index;
 
             try
             {
                 Console.WriteLine("text");
-                Console.Write($"{userTasks.ElementAt(taskID)}");
+                Console.Write($"{userTasks.ElementAt(taskID).taskName}");
             }
             catch (Exception e)
             {
