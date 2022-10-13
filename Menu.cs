@@ -13,10 +13,11 @@ namespace Daijou
             selectedIndex = 0;
         }
 
-        public void PrintMenu()
+        public void LoadMenu()
         {
             while (true)
             {
+                Console.Clear();
                 Console.WriteLine("Daijou - Daily Journal");
                 for (var i = 0; i < userTasks.Count; i++)
                 {
@@ -35,6 +36,7 @@ namespace Daijou
                 }
 
                 var input = Console.ReadKey();
+
 
                 if (input.Key is ConsoleKey.DownArrow)
                 {
@@ -58,13 +60,14 @@ namespace Daijou
 
                 if (input.Key is ConsoleKey.E)
                 {
-                    Program.EditTask();
+                    Program.EditTask(selectedIndex);
                 }
 
                 if (input.Key is ConsoleKey.Enter)
                 {
                     Console.Clear();
-                    Program.ViewTaskDetails();
+                    Program.ViewTaskDetails(selectedIndex);
+                    Console.ReadKey();
                 }
 
                 if (input.Key is ConsoleKey.Escape)
@@ -73,7 +76,6 @@ namespace Daijou
                     Environment.Exit(0);
                 }
 
-                Console.Clear();
             }
         }
 
