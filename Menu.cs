@@ -36,7 +36,8 @@ namespace Daijou
                 }
 
                 var input = Console.ReadKey();
-
+                DateTime firstHardcodedDate = new DateTime(2010, 10, 10);
+                DateTime secondHardcodedDate = new DateTime(2011, 11, 11);
 
                 if (input.Key is ConsoleKey.DownArrow)
                 {
@@ -76,6 +77,15 @@ namespace Daijou
                     Environment.Exit(0);
                 }
 
+                if (input.Key is ConsoleKey.LeftArrow)
+                {
+                    Program.SortByDate(firstHardcodedDate);
+                }
+
+                if (input.Key is ConsoleKey.RightArrow)
+                {
+                    Program.SortByDate(secondHardcodedDate);
+                }
             }
         }
 
