@@ -1,4 +1,6 @@
-﻿namespace Daijou
+﻿using System.Threading.Tasks;
+
+namespace Daijou
 {
     class Program
     {
@@ -26,7 +28,8 @@
                 foreach (var line in lines)
                 {
                     string[] entries = line.Split(",");
-                    userTasks.Add(new Task(int.Parse(entries[0]), entries[1]));
+                    userTasks.Add(new Task(int.Parse(entries[0]), entries[1],
+                                           entries[2], DateTime.Parse(entries[3])));
                     taskIDCountList.Add(int.Parse(entries[0]));
                 }
                 if (taskIDCountList.Any()) taskIDCount = taskIDCountList.Count();
@@ -38,7 +41,7 @@
             List<string> output = new List<string>();
             foreach (var task in userTasks)
             {
-                output.Add($"{task.taskID},{task.taskName}");
+                output.Add($"{task.taskID},{task.taskName},{task.description},{task.date}");
             }
             File.WriteAllLines(filePath, output);
         }
@@ -50,9 +53,26 @@
             try
             {
                 userTasks.Remove(userTasks.Single(r => r.taskID == taskID));
-                Console.Write("Enter an updated task description: ");
-                string newTask = Console.ReadLine();
-                userTasks.Add(new Task(taskID, newTask));
+                Console.Write("Enter an updated task name: ");
+                string newTaskName = Console.ReadLine();
+
+                Console.Write("Enter task description: ");
+                string newTaskDescription = Console.ReadLine();
+
+                Console.Write("Enter task day: ");
+                string newTaskDateDayInput = Console.ReadLine();
+                int newTaskDateDay = Convert.ToInt32(newTaskDateDayInput);
+
+                Console.Write("Enter task month: ");
+                string newTaskDateMonthInput = Console.ReadLine();
+                int newTaskDateMonth = Convert.ToInt32(newTaskDateMonthInput);
+
+                Console.Write("Enter task year: ");
+                string newTaskDateYearInput = Console.ReadLine();
+                int newTaskDateYear = Convert.ToInt32(newTaskDateYearInput);
+
+                DateTime newTaskDueDate = new DateTime(newTaskDateYear, newTaskDateMonth, newTaskDateDay);
+                userTasks.Add(new Task(taskID, newTaskName, newTaskDescription, newTaskDueDate));
             }
             catch (Exception e)
             {
@@ -82,8 +102,25 @@
             try
             {
                 Console.Write("Enter the task name: ");
-                string newTask = Console.ReadLine();
-                userTasks.Add(new Task(taskIDCount++, newTask));
+                string newTaskName = Console.ReadLine();
+
+				Console.Write("Enter task description: ");
+				string newTaskDescription = Console.ReadLine();
+				
+                Console.Write("Enter task day: ");
+				string newTaskDateDayInput = Console.ReadLine();
+                int newTaskDateDay = Convert.ToInt32(newTaskDateDayInput);
+
+                Console.Write("Enter task month: ");
+				string newTaskDateMonthInput = Console.ReadLine();
+                int newTaskDateMonth = Convert.ToInt32(newTaskDateMonthInput);
+				
+                Console.Write("Enter task year: ");
+				string newTaskDateYearInput = Console.ReadLine();
+                int newTaskDateYear = Convert.ToInt32(newTaskDateYearInput);
+
+                DateTime newTaskDueDate = new DateTime(newTaskDateYear, newTaskDateMonth, newTaskDateDay);
+                userTasks.Add(new Task(taskIDCount++, newTaskName, newTaskDescription, newTaskDueDate));
             }
             catch (Exception e)
             {
@@ -98,13 +135,27 @@
 
             try
             {
-                Console.WriteLine("text");
-                Console.Write($"{userTasks.ElementAt(taskID).taskName}");
+                Console.WriteLine("--------------------------\n" +
+                                  $"Date: {userTasks.ElementAt(taskID).date}\n" +
+                                  $"--------------------------\n");
+                Console.Write($"Task: {userTasks.ElementAt(taskID).taskName}\n" +
+                              $"Description: {userTasks.ElementAt(taskID).description}");
             }
             catch (Exception e)
             {
                 Console.WriteLine("\nERROR: " + e.Message + "\nPress any key to continue..");
                 Console.ReadKey();
+            }
+        }
+
+        public static void SortByDate(DateTime date)
+        {
+            List<Task> orderedList = userTasks;
+            orderedList = userTasks.Where(o => o.date == date).ToList();
+
+            foreach (var task in orderedList)
+            {
+                Console.WriteLine($"{task.taskID}\t{task.taskName}\t{task.description}\t{task.date}");
             }
         }
     }
