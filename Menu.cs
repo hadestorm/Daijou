@@ -79,12 +79,12 @@ namespace Daijou
 
                 if (input.Key is ConsoleKey.LeftArrow)
                 {
-                    Program.SortByDate(firstHardcodedDate);
+                    userTasks = Program.SortByDate(firstHardcodedDate);
                 }
 
                 if (input.Key is ConsoleKey.RightArrow)
                 {
-                    Program.SortByDate(secondHardcodedDate);
+                    userTasks = Program.SortByDate(secondHardcodedDate);
                 }
             }
         }
