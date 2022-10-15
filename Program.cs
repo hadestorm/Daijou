@@ -148,15 +148,17 @@ namespace Daijou
             }
         }
 
-        public static void SortByDate(DateTime date)
+        public static List<Task> SortByDate(DateTime date)
         {
             List<Task> orderedList = userTasks;
             orderedList = userTasks.Where(o => o.date == date).ToList();
 
-            foreach (var task in orderedList)
+            /*foreach (var task in orderedList)
             {
                 Console.WriteLine($"{task.taskID}\t{task.taskName}\t{task.description}\t{task.date}");
-            }
+            }*/
+			
+			return orderedList;
         }
     }
 }
